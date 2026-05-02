@@ -1,19 +1,18 @@
 :root {
   color-scheme: dark;
-  --bg-deep: #08090f;
-  --bg-mid: #10131c;
-  --accent: #5eead4;
-  --text: #f1f4fb;
-  --muted: #94a3b8;
-  --font-display: 'Orbitron', ui-sans-serif, system-ui, sans-serif;
-  --font-brand-title: 'Space Grotesk', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
-  --font-ui: 'Noto Sans JP', 'Segoe UI', 'Hiragino Sans', Meiryo, sans-serif;
-  --radius-lg: 18px;
-  --radius-md: 12px;
-  --shadow-lg:
-    0 24px 48px rgba(8, 10, 20, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.04);
-  --shadow-glow: 0 0 40px rgba(167, 139, 250, 0.15), 0 0 80px rgba(94, 234, 212, 0.06);
+  --bp-blue: #005fcc;
+  --bp-blue-mid: #0073e6;
+  --bp-blue-deep: #003d99;
+  --bp-blue-dark: #002d73;
+  --accent: #9edcff;
+  --text: #ffffff;
+  --muted: rgba(255, 255, 255, 0.72);
+  --font-display: 'Inter', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
+  --font-brand-title: 'Inter', 'Noto Sans JP', ui-sans-serif, system-ui, sans-serif;
+  --font-ui: 'Inter', 'Noto Sans JP', 'Segoe UI', 'Hiragino Sans', Meiryo, sans-serif;
+  /* ブループリント調：角はシャープ */
+  --radius-lg: 0;
+  --radius-md: 0;
 }
 
 *,
@@ -38,13 +37,13 @@ body {
   font-family: var(--font-ui);
   color: var(--text);
   touch-action: manipulation;
-  background-color: #10131c;
+  background-color: var(--bp-blue-deep);
   background-image:
-    radial-gradient(ellipse 110% 90% at 15% -20%, rgba(167, 139, 250, 0.28) 0%, transparent 52%),
-    radial-gradient(ellipse 90% 70% at 88% 10%, rgba(94, 234, 212, 0.14) 0%, transparent 48%),
-    radial-gradient(ellipse 70% 55% at 50% 105%, rgba(244, 114, 182, 0.09) 0%, transparent 42%),
-    radial-gradient(ellipse 50% 40% at 0% 60%, rgba(99, 102, 241, 0.12) 0%, transparent 45%),
-    linear-gradient(168deg, #12151f 0%, var(--bg-mid) 42%, var(--bg-deep) 100%);
+    radial-gradient(ellipse 95% 85% at 50% 42%, rgba(255, 255, 255, 0.14) 0%, transparent 58%),
+    linear-gradient(rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.11) 1px, transparent 1px),
+    linear-gradient(175deg, var(--bp-blue-mid) 0%, var(--bp-blue) 38%, var(--bp-blue-deep) 100%);
+  background-size: auto, 32px 32px, 32px 32px, auto;
   background-attachment: fixed;
 }
 
@@ -77,7 +76,6 @@ body {
   margin: 0;
   background: none;
   border: none;
-  box-shadow: none;
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
   pointer-events: none;
@@ -89,28 +87,23 @@ body {
   gap: 4px;
   min-width: 0;
   max-width: min(100%, calc(100vw - 13rem));
-  padding: 8px 14px;
+  padding: 10px 16px;
   border-radius: var(--radius-md);
   pointer-events: auto;
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(18px) saturate(1.25);
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(8, 10, 20, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px) saturate(1.1);
+  -webkit-backdrop-filter: blur(14px) saturate(1.1);
+  border: 2px solid rgba(255, 255, 255, 0.92);
 }
 
 .brand-title {
   margin: 0;
   font-family: var(--font-brand-title);
-  font-size: clamp(1.05rem, 3.5vw, 1.38rem);
+  font-size: clamp(0.82rem, 2.8vw, 1.05rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  text-transform: none;
-  background: linear-gradient(115deg, #ffffff 0%, #c7d2fe 28%, #5eead4 62%, #99f6e4 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 2px 24px rgba(167, 139, 250, 0.2));
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
 /* 手番：ヘッダー直下あたりにフロート（固定ヘッダーと干渉しないよう余白） */
@@ -130,65 +123,30 @@ body {
   align-items: center;
   gap: 12px;
   padding: 10px 20px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.06);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  box-shadow: 0 8px 32px rgba(8, 10, 22, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-  transition:
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    transform 0.2s ease;
-}
-
-.turn-pill.is-black {
-  border-color: rgba(148, 163, 184, 0.35);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(30, 34, 48, 0.65) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.12),
-    0 12px 40px rgba(8, 10, 20, 0.45),
-    var(--shadow-glow);
-}
-
-.turn-pill.is-white {
-  border-color: rgba(226, 232, 240, 0.28);
-  background: linear-gradient(145deg, rgba(255, 255, 255, 0.14) 0%, rgba(36, 42, 58, 0.55) 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.18),
-    0 12px 36px rgba(94, 234, 212, 0.08);
+  border: none;
+  background: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition: transform 0.2s ease;
 }
 
 .turn-pill.is-over {
-  border-color: rgba(148, 163, 184, 0.22);
-  background: rgba(255, 255, 255, 0.05);
   opacity: 1;
 }
 
 .turn-disc {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: 24px;
   height: 24px;
-  border-radius: 50%;
   flex-shrink: 0;
-  box-shadow:
-    0 2px 8px rgba(0, 0, 0, 0.5),
-    inset 0 2px 4px rgba(255, 255, 255, 0.12);
 }
 
-.turn-pill.is-black .turn-disc {
-  background: radial-gradient(circle at 30% 28%, #5a5e6a, #0a0a0e);
-  border: 1px solid #1e2028;
-}
-
-.turn-pill.is-white .turn-disc {
-  background: radial-gradient(circle at 30% 28%, #ffffff, #b8c0d0);
-  border: 2px solid #8892a4;
-}
-
-.turn-pill.is-over .turn-disc {
-  background: linear-gradient(135deg, #4a5060, #303540);
-  border: 1px solid #5a6070;
-  box-shadow: none;
+.turn-disc-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
 .turn-text {
@@ -229,36 +187,25 @@ body {
   min-height: 44px;
   border-radius: var(--radius-md);
   font-family: var(--font-ui);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 600;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   -webkit-tap-highlight-color: transparent;
-  transition:
-    transform 0.15s ease,
-    box-shadow 0.2s ease;
+  transition: transform 0.15s ease;
 }
 
 .btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(145deg, rgba(167, 139, 250, 0.22) 0%, rgba(94, 234, 212, 0.12) 55%, rgba(255, 255, 255, 0.06) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #f8fafc;
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.12) inset,
-    0 8px 24px rgba(8, 10, 20, 0.4),
-    var(--shadow-glow);
+  background: #ffffff;
+  border: 2px solid #ffffff;
+  color: #002a5c;
 }
 
 .btn-primary .btn-glow {
-  position: absolute;
-  inset: -1px;
-  border-radius: inherit;
-  background: linear-gradient(135deg, rgba(167, 139, 250, 0.5), transparent 42%, rgba(94, 234, 212, 0.35));
-  opacity: 0.28;
-  z-index: 0;
-  pointer-events: none;
+  display: none;
 }
 
 .btn-primary > :not(.btn-glow) {
@@ -269,26 +216,33 @@ body {
 .btn-primary-inner {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  justify-content: center;
+  gap: 0.35em;
   line-height: 1;
 }
 
 .btn-primary-label {
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 
 .btn-primary-icon.material-icons {
-  font-size: 1.125rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 1.05em;
   line-height: 1;
   font-feature-settings: 'liga';
+  color: #002a5c;
+  /* Material Icons の字形が em ボックス内でやや下寄りになるため視覚補正 */
+  transform: translateY(-0.08em);
 }
 
 .btn-primary:hover {
-  border-color: rgba(255, 255, 255, 0.28);
-  box-shadow:
-    0 1px 0 rgba(255, 255, 255, 0.16) inset,
-    0 10px 32px rgba(167, 139, 250, 0.2),
-    0 12px 36px rgba(8, 10, 20, 0.45);
+  background: #f0f6ff;
+  border-color: #f0f6ff;
   transform: translateY(-1px);
 }
 
@@ -321,20 +275,18 @@ body {
   overflow: hidden;
   border: none;
   background:
-    radial-gradient(ellipse 85% 65% at 50% 100%, rgba(94, 234, 212, 0.08) 0%, transparent 58%),
-    radial-gradient(ellipse 60% 45% at 80% 20%, rgba(167, 139, 250, 0.06) 0%, transparent 50%),
-    linear-gradient(185deg, rgba(16, 20, 32, 0.45) 0%, rgba(6, 8, 14, 0.95) 100%);
-  box-shadow: none;
+    radial-gradient(ellipse 90% 70% at 50% 45%, rgba(255, 255, 255, 0.1) 0%, transparent 55%),
+    linear-gradient(180deg, rgba(0, 70, 160, 0.35) 0%, rgba(0, 40, 110, 0.92) 100%);
 }
 
 .viewport-grid {
   position: absolute;
   inset: 0;
-  opacity: 0.05;
+  opacity: 0.14;
   background-image:
-    linear-gradient(rgba(167, 139, 250, 0.35) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(94, 234, 212, 0.25) 1px, transparent 1px);
-  background-size: 28px 28px;
+    linear-gradient(rgba(255, 255, 255, 0.35) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.35) 1px, transparent 1px);
+  background-size: 32px 32px;
   pointer-events: none;
   z-index: 0;
 }
@@ -365,15 +317,14 @@ body {
   border-radius: var(--radius-md);
   font-size: clamp(0.82rem, 2.8vw, 0.92rem);
   font-weight: 500;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   pointer-events: none;
   max-width: min(28rem, calc(100% - 32px));
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(16px) saturate(1.2);
-  -webkit-backdrop-filter: blur(16px) saturate(1.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-left: 3px solid var(--accent);
-  box-shadow: 0 10px 36px rgba(8, 10, 20, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-left: 3px solid #ffffff;
 }
 
 /* —— 面を正面に向ける（右下） —— */
@@ -387,11 +338,10 @@ body {
   gap: 8px;
   padding: 12px;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.07);
-  backdrop-filter: blur(18px) saturate(1.25);
-  -webkit-backdrop-filter: blur(18px) saturate(1.25);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 12px 40px rgba(8, 10, 20, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   pointer-events: auto;
   max-width: min(200px, calc(100% - 20px));
 }
@@ -401,21 +351,21 @@ body {
   align-items: center;
   gap: 6px;
   padding-bottom: 6px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 .face-view-ctrl-icon.material-icons {
   font-size: 1.05rem;
   line-height: 1;
-  color: #c4b5fd;
-  filter: drop-shadow(0 0 10px rgba(167, 139, 250, 0.35));
+  color: #ffffff;
 }
 
 .face-view-ctrl-title {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
-  color: var(--muted);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.75);
 }
 
 .face-view-ctrl-btns {
@@ -435,27 +385,25 @@ body {
   align-items: center;
   justify-content: center;
   font-family: var(--font-ui);
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 600;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.04em;
   line-height: 1;
   color: var(--text);
-  background: linear-gradient(165deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  border-radius: 10px;
+  background: rgba(0, 35, 90, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 2px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
   transition:
     border-color 0.15s ease,
-    box-shadow 0.15s ease,
     transform 0.1s ease,
     background 0.15s ease;
 }
 
 .face-view-btn:hover {
-  border-color: rgba(167, 139, 250, 0.45);
-  box-shadow: 0 0 20px rgba(167, 139, 250, 0.15), 0 4px 16px rgba(8, 10, 20, 0.35);
-  background: linear-gradient(165deg, rgba(167, 139, 250, 0.18) 0%, rgba(94, 234, 212, 0.08) 100%);
+  border-color: rgba(255, 255, 255, 0.65);
+  background: rgba(255, 255, 255, 0.18);
 }
 
 .face-view-btn:active {
@@ -463,7 +411,7 @@ body {
 }
 
 .face-view-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
@@ -476,34 +424,22 @@ body {
   margin: 0;
   padding: 10px 12px max(10px, calc(8px + env(safe-area-inset-bottom)));
   font-size: 0.72rem;
-  color: rgba(226, 232, 240, 0.88);
+  color: rgba(255, 255, 255, 0.92);
   line-height: 1.45;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
   text-align: center;
   opacity: 1;
   pointer-events: none;
   background: linear-gradient(
     to top,
-    rgba(12, 14, 22, 0.92) 0%,
-    rgba(12, 14, 22, 0.45) 50%,
+    rgba(0, 35, 95, 0.95) 0%,
+    rgba(0, 50, 120, 0.4) 55%,
     transparent 100%
   );
 }
 
 .hint-touch {
   display: none;
-}
-
-@media (max-width: 768px) {
-  .hint-desktop {
-    display: none;
-  }
-
-  .hint-touch {
-    display: block;
-    font-size: 0.72rem;
-    line-height: 1.55;
-  }
 }
 
 @media (max-width: 960px) {
@@ -550,12 +486,6 @@ body {
 
   .brand-title {
     font-size: clamp(0.95rem, 4vw, 1.15rem);
-  }
-
-  .status {
-    right: max(16px, env(safe-area-inset-right));
-    max-width: none;
-    font-size: clamp(0.78rem, 2.5vw, 0.88rem);
   }
 
 }
@@ -606,6 +536,116 @@ body {
   }
 }
 
+/* —— スマホ縦持ち中心：ヒント帯と重ならないよう下段 UI を整理 —— */
+@media (max-width: 768px) {
+  .hint-desktop {
+    display: none;
+  }
+
+  .hint-touch {
+    display: block;
+  }
+
+  .hint,
+  .hint-touch {
+    padding: 12px max(12px, env(safe-area-inset-left)) max(14px, calc(12px + env(safe-area-inset-bottom)))
+      max(12px, env(safe-area-inset-right));
+    font-size: 0.8125rem;
+    line-height: 1.5;
+  }
+
+  #turn-area {
+    top: calc(env(safe-area-inset-top) + 50px);
+    padding: 0 max(8px, env(safe-area-inset-left)) 0 max(8px, env(safe-area-inset-right));
+  }
+
+  .turn-pill {
+    padding: 8px 12px;
+    gap: 10px;
+  }
+
+  .turn-text {
+    font-size: clamp(0.9rem, 3.8vw, 1rem);
+    white-space: nowrap;
+    text-align: center;
+    line-height: 1.25;
+  }
+
+  /* 枚数：左。視点パネル幅を確保して重なりを防ぐ */
+  .status {
+    left: max(10px, env(safe-area-inset-left));
+    right: auto;
+    bottom: max(5.35rem, calc(4.35rem + env(safe-area-inset-bottom)));
+    max-width: min(19rem, calc(100vw - 11.25rem));
+    padding: 10px 12px;
+    font-size: clamp(0.78rem, 3.2vw, 0.88rem);
+    line-height: 1.35;
+  }
+
+  .face-view-ctrl {
+    right: max(8px, env(safe-area-inset-right));
+    bottom: max(5.35rem, calc(4.35rem + env(safe-area-inset-bottom)));
+    width: 10.5rem;
+    max-width: min(10.5rem, calc(100vw - 1rem));
+    padding: 10px;
+    gap: 8px;
+  }
+
+  .face-view-ctrl-head {
+    padding-bottom: 8px;
+  }
+
+  .face-view-ctrl-title {
+    font-size: 0.65rem;
+  }
+
+  .face-view-ctrl-btns {
+    grid-template-columns: repeat(3, minmax(2.75rem, 1fr));
+    gap: 8px;
+  }
+
+  .face-view-btn {
+    min-width: 0;
+    min-height: 48px;
+    aspect-ratio: 1;
+    font-size: 0.78rem;
+  }
+}
+
+@media (max-width: 768px) and (orientation: landscape) {
+  .status,
+  .face-view-ctrl {
+    bottom: max(3.6rem, calc(2.85rem + env(safe-area-inset-bottom)));
+  }
+
+  .hint,
+  .hint-touch {
+    font-size: 0.75rem;
+    padding-top: 8px;
+    padding-bottom: max(8px, calc(6px + env(safe-area-inset-bottom)));
+  }
+
+  #turn-area {
+    top: calc(env(safe-area-inset-top) + 42px);
+  }
+
+  .turn-pill {
+    min-height: 36px;
+    padding: 4px 10px;
+  }
+
+  .face-view-ctrl {
+    width: 9.25rem;
+    max-width: min(9.25rem, 42vw);
+    padding: 8px;
+  }
+
+  .face-view-btn {
+    min-height: 40px;
+    font-size: 0.72rem;
+  }
+}
+
 /* —— 勝利オーバーレイ —— */
 .victory-overlay {
   position: fixed;
@@ -635,11 +675,10 @@ body {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 40% 25%, rgba(167, 139, 250, 0.2) 0%, transparent 55%),
-    radial-gradient(ellipse at 70% 80%, rgba(94, 234, 212, 0.12) 0%, transparent 50%),
-    rgba(8, 10, 18, 0.72);
-  backdrop-filter: blur(14px) saturate(1.15);
-  -webkit-backdrop-filter: blur(14px) saturate(1.15);
+    radial-gradient(ellipse at 45% 30%, rgba(255, 255, 255, 0.14) 0%, transparent 52%),
+    rgba(0, 25, 75, 0.82);
+  backdrop-filter: blur(12px) saturate(1.1);
+  -webkit-backdrop-filter: blur(12px) saturate(1.1);
 }
 
 .confetti-host {
@@ -655,7 +694,7 @@ body {
   top: -16px;
   width: 9px;
   height: 12px;
-  border-radius: 2px;
+  border-radius: 0;
   opacity: 0.95;
   animation: confetti-fall var(--dur, 3.2s) linear forwards;
   animation-delay: var(--delay, 0s);
@@ -691,12 +730,8 @@ body {
   padding: 32px 28px 26px;
   text-align: center;
   border-radius: var(--radius-lg);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: linear-gradient(168deg, rgba(255, 255, 255, 0.1) 0%, rgba(18, 22, 34, 0.92) 45%, rgba(8, 10, 18, 0.96) 100%);
-  box-shadow:
-    var(--shadow-lg),
-    var(--shadow-glow),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  background: linear-gradient(175deg, rgba(0, 90, 180, 0.55) 0%, rgba(0, 35, 95, 0.95) 55%, rgba(0, 20, 70, 0.98) 100%);
   animation: victory-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both;
 }
 
@@ -727,7 +762,7 @@ body {
   inset: 0;
   border-radius: inherit;
   padding: 1px;
-  background: linear-gradient(135deg, rgba(167, 139, 250, 0.55), rgba(94, 234, 212, 0.45), transparent 62%);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.45), rgba(150, 210, 255, 0.25), transparent 65%);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
@@ -760,19 +795,16 @@ body {
   margin: 0 0 10px;
   font-size: 3rem;
   line-height: 1;
-  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.35));
 }
 
 .victory-title {
   margin: 0 0 12px;
   font-family: var(--font-display);
-  font-size: clamp(1.25rem, 5vw, 1.75rem);
+  font-size: clamp(1.15rem, 5vw, 1.65rem);
   font-weight: 700;
-  letter-spacing: 0.04em;
-  background: linear-gradient(102deg, #ffffff 0%, #c4b5fd 40%, #5eead4 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ffffff;
 }
 
 .victory-score {
@@ -783,9 +815,7 @@ body {
 }
 
 .victory-card.is-draw .victory-title {
-  background: linear-gradient(100deg, #f1f5f9 0%, #94a3b8 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .victory-btn {
@@ -793,6 +823,6 @@ body {
 }
 
 .victory-overlay.is-visible .victory-btn:focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid #ffffff;
   outline-offset: 3px;
 }

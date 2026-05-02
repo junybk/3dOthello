@@ -5,7 +5,16 @@ const canvas = document.querySelector('#game-canvas');
 const statusEl = document.querySelector('#status');
 const btnReset = document.querySelector('#btn-reset');
 const turnPill = document.querySelector('#turn-pill');
+const turnDisc = document.querySelector('#turn-disc');
 const turnText = document.querySelector('#turn-text');
+
+/** フラットな円（CSS グラデではなく SVG） */
+const TURN_DISC_SVG_BLACK =
+  '<svg class="turn-disc-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#0a0a0e"/></svg>';
+const TURN_DISC_SVG_WHITE =
+  '<svg class="turn-disc-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#ffffff"/></svg>';
+const TURN_DISC_SVG_OVER =
+  '<svg class="turn-disc-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#6a7280"/></svg>';
 
 const victoryOverlay = document.querySelector('#victory-overlay');
 const victoryTitle = document.querySelector('#victory-title');
@@ -26,14 +35,17 @@ function syncTurnBanner() {
   const endedForUi = g.isGameOver() && !g.isOpeningLayout();
   if (endedForUi) {
     turnPill.classList.add('is-over');
+    if (turnDisc) turnDisc.innerHTML = TURN_DISC_SVG_OVER;
     turnText.textContent = '対局終了';
     return;
   }
   if (g.current === BLACK) {
     turnPill.classList.add('is-black');
+    if (turnDisc) turnDisc.innerHTML = TURN_DISC_SVG_BLACK;
     turnText.textContent = '黒の番です';
   } else {
     turnPill.classList.add('is-white');
+    if (turnDisc) turnDisc.innerHTML = TURN_DISC_SVG_WHITE;
     turnText.textContent = '白の番です';
   }
 }
@@ -55,8 +67,8 @@ function spawnConfetti(kind) {
   const count = kind === 'draw' ? 28 : 52;
   const colors =
     kind === 'draw'
-      ? ['#8b949e', '#6e7681', '#484f58', '#c9d1d9']
-      : ['#58a6ff', '#f0883e', '#a371f7', '#3fb950', '#f778ba', '#ffffff', '#d29922'];
+      ? ['#6a8aac', '#8eb0d4', '#b8d4f0', '#e8f4ff']
+      : ['#7ecbff', '#ffffff', '#4a9eff', '#b8d4ff', '#9edcff', '#cce8ff', '#3d7ccc'];
 
   for (let i = 0; i < count; i++) {
     const el = document.createElement('span');

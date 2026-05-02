@@ -24,7 +24,8 @@ export class OthelloCubeView {
     this.onBoardChange = onBoardChange;
 
     this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0x10131c);
+    /* 背景は参照に近いロイヤルブルー（立体とのコントラスト用） */
+    this.scene.background = new THREE.Color(0x0055c4);
 
     this.camera = new THREE.PerspectiveCamera(50, 1, 0.1, 100);
     this.camera.position.set(3.2, 2.4, 4.2);
@@ -45,31 +46,50 @@ export class OthelloCubeView {
     this.diskMeshes = [];
     this.baseCellColors = new Map();
 
-    const ambient = new THREE.AmbientLight(0xffffff, 0.35);
+    /* 明るいスカイブルーを維持するため環境光を強め、指向光でなだらかな陰影 */
+    const ambient = new THREE.AmbientLight(0xe8f4ff, 0.58);
     this.scene.add(ambient);
-    const dir = new THREE.DirectionalLight(0xffffff, 1.05);
-    dir.position.set(4, 6, 5);
+    const dir = new THREE.DirectionalLight(0xffffff, 0.92);
+    dir.position.set(4.5, 6.5, 5);
     dir.castShadow = true;
     this.scene.add(dir);
 
     this.diskMatBlack = new THREE.MeshStandardMaterial({
-      color: 0x1a1a1e,
-      roughness: 0.35,
-      metalness: 0.15,
+      color: 0x152032,
+      roughness: 0.55,
+      metalness: 0,
+      emissive: new THREE.Color(0x0a1524),
+      emissiveIntensity: 0.08,
     });
     this.diskMatWhite = new THREE.MeshStandardMaterial({
-      color: 0xf2f2f7,
-      roughness: 0.28,
-      metalness: 0.08,
+      color: 0xf7fbff,
+      roughness: 0.55,
+      metalness: 0,
+      emissive: new THREE.Color(0xc8e8ff),
+      emissiveIntensity: 0.06,
     });
+    /* セルはマットなサテン調（参照の立体と同様に metalness 0・高 roughness） */
     this.cellMatEmpty = new THREE.MeshStandardMaterial({
-      color: 0x2d333b,
-      roughness: 0.85,
+      color: 0x7ec8ff,
+      roughness: 0.82,
       metalness: 0,
     });
 
     this.root = new THREE.Group();
     this.scene.add(this.root);
+
+    const blueprintGrid = new THREE.GridHelper(18, 36, 0xb8e4ff, 0x6eb8f0);
+    blueprintGrid.position.y = -2.35;
+    blueprintGrid.traverse((obj) => {
+      if (obj.material) {
+        const mats = Array.isArray(obj.material) ? obj.material : [obj.material];
+        for (const m of mats) {
+          m.transparent = true;
+          m.opacity = 0.28;
+        }
+      }
+    });
+    this.scene.add(blueprintGrid);
 
     /** @type {{ t0: number; dur: number; from: THREE.Vector3; to: THREE.Vector3 } | null} */
     this._faceViewAnim = null;
@@ -90,9 +110,10 @@ export class OthelloCubeView {
     canvas.addEventListener('click', (e) => this.#onClick(e, canvas));
   }
 
+  /** 参照の明部 #7EC8FF〜陰部 #4A90E2 のレンジで面ごとにわずかに変化 */
   #faceTint(face) {
-    const tints = [0x3a4f5c, 0x4a3f52, 0x3f4a48, 0x5c4a3a, 0x3a4c5c, 0x4c4a3a];
-    return new THREE.Color(tints[face] ?? 0x333333);
+    const tints = [0x7ec8ff, 0x78c4fc, 0x6eb8f5, 0x4a90e2, 0x72c0fa, 0x64b0f0];
+    return new THREE.Color(tints[face] ?? 0x6eb8f5);
   }
 
   #buildBoard() {
@@ -118,7 +139,9 @@ export class OthelloCubeView {
           const tint = this.#faceTint(f);
           const mat = this.cellMatEmpty.clone();
           mat.color.copy(tint);
-          mat.emissive.copy(tint).multiplyScalar(0.06);
+          mat.roughness = 0.82;
+          mat.metalness = 0;
+          mat.emissive.copy(tint).multiplyScalar(0.045);
           cellMesh.material = mat;
           this.baseCellColors.set(cellMesh, tint.clone());
 
@@ -145,7 +168,7 @@ export class OthelloCubeView {
 
     const edge = new THREE.LineSegments(
       new THREE.EdgesGeometry(new THREE.BoxGeometry(2.02, 2.02, 2.02)),
-      new THREE.LineBasicMaterial({ color: 0x8b949e, transparent: true, opacity: 0.45 })
+      new THREE.LineBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.42 })
     );
     this.root.add(edge);
   }
@@ -193,13 +216,13 @@ export class OthelloCubeView {
     if (!base) return;
     const mat = mesh.material;
     if (on && this.game.at(cell) === EMPTY && this.game.canPlay(cell, this.game.current)) {
-      mat.color.setHex(0x3d5a4a);
-      mat.emissive.setHex(0x1a3328);
-      mat.emissiveIntensity = 0.35;
+      mat.color.setHex(0x96dcff);
+      mat.emissive.setHex(0x7ec8ff);
+      mat.emissiveIntensity = 0.28;
       mesh.scale.setScalar(HOVER_EMPHASIS);
     } else {
       mat.color.copy(base);
-      mat.emissive.copy(base).multiplyScalar(0.06);
+      mat.emissive.copy(base).multiplyScalar(0.045);
       mat.emissiveIntensity = 1;
       mesh.scale.setScalar(1);
     }
