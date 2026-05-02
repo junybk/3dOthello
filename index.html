@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#0c0e14" />
+    <meta name="color-scheme" content="dark" />
+    <title>3D Cube Othello</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700&family=Orbitron:wght@500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.module.js",
+          "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.184.0/examples/jsm/"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="app">
+      <header class="top-bar">
+        <div class="brand">
+          <h1 class="brand-title">3D Cube Othello</h1>
+        </div>
+        <div class="actions">
+          <button type="button" id="btn-reset" class="btn btn-primary">
+            <span class="btn-glow" aria-hidden="true"></span>
+            <span class="btn-primary-inner">
+              <span class="material-icons btn-primary-icon" aria-hidden="true">play_arrow</span>
+              <span class="btn-primary-label">Start</span>
+            </span>
+          </button>
+        </div>
+      </header>
+      <main class="stage">
+        <div class="viewport-stack">
+          <div class="viewport-frame" id="viewport-frame">
+            <div class="viewport-grid" aria-hidden="true"></div>
+            <canvas id="game-canvas" tabindex="0"></canvas>
+          </div>
+          <div id="turn-area" aria-live="polite">
+            <div class="turn-pill" id="turn-pill" role="status">
+              <span class="turn-disc" id="turn-disc" aria-hidden="true"></span>
+              <span class="turn-text" id="turn-text"></span>
+            </div>
+          </div>
+          <div id="status" class="status" role="status"></div>
+          <nav
+            class="face-view-ctrl"
+            id="face-view-ctrl"
+            aria-label="面を正面に向ける"
+          >
+            <div class="face-view-ctrl-head">
+              <span class="material-icons face-view-ctrl-icon" aria-hidden="true">3d_rotation</span>
+              <span class="face-view-ctrl-title">視点</span>
+            </div>
+            <div class="face-view-ctrl-btns">
+              <button type="button" class="face-view-btn" data-face="0" title="前">
+                前
+              </button>
+              <button type="button" class="face-view-btn" data-face="1" title="後">
+                後
+              </button>
+              <button type="button" class="face-view-btn" data-face="2" title="右">
+                右
+              </button>
+              <button type="button" class="face-view-btn" data-face="3" title="左">
+                左
+              </button>
+              <button type="button" class="face-view-btn" data-face="4" title="上">
+                上
+              </button>
+              <button type="button" class="face-view-btn" data-face="5" title="下">
+                下
+              </button>
+            </div>
+          </nav>
+        </div>
+        <p class="hint hint-desktop">
+          ドラッグで視点回転・ホイールでズーム。ハイライトされたマスだけ着手できます。
+        </p>
+        <p class="hint hint-touch">
+          1 本指でドラッグ＝視点回転、2 本指でピンチ＝ズーム。光るマスをタップで着手。
+        </p>
+      </main>
+    </div>
+
+    <div id="victory-overlay" class="victory-overlay is-hidden" inert>
+      <div class="victory-backdrop" aria-hidden="true"></div>
+      <div class="confetti-host" id="confetti-host" aria-hidden="true"></div>
+      <div
+        class="victory-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="victory-title"
+      >
+        <p class="victory-emoji" id="victory-emoji" aria-hidden="true">🏆</p>
+        <h2 class="victory-title" id="victory-title"></h2>
+        <p class="victory-score" id="victory-score"></p>
+        <button type="button" class="btn btn-primary victory-btn" id="victory-close">閉じる</button>
+      </div>
+    </div>
+
+    <script type="module" src="js/main.js"></script>
+  </body>
+</html>
